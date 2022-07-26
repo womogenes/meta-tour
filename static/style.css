@@ -6,8 +6,8 @@ body {
   margin: 0;
 }
 
-button {
-  font-family: 'Inconsolata', monospace;
+.button {
+  /* font-family: 'Inconsolata', monospace; */
 }
 
 main {

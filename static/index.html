@@ -13,8 +13,8 @@
     <link rel="manifest" href="manifest.json" />
     <script src="https://cdn.socket.io/4.5.1/socket.io.min.js" defer></script>
 
-    <link rel="stylesheet" href="./style.css" />
-    <script src="./main.js" type="module" defer></script>
+    <link rel="stylesheet" href="../style.css" />
+    <script src="../js/main.js" type="module" defer></script>
 
     <title>Sensor test</title>
   </head>
@@ -51,14 +51,24 @@
             Stop capture
           </button>
 
-          <form class="mt-3" method="post" enctype="multipart/form-data">
-            <div class="file has-name is-left">
+          <!-- File upload -->
+          <form class="mt-4 box" method="post" enctype="multipart/form-data">
+            <!-- File -->
+            <div class="file has-name is-boxed">
               <label class="file-label">
-                <input class="file-input" type="file" name="resume" />
+                <input class="file-input" type="file" name="file" />
                 <span class="file-cta">
-                  <span class="file-label">Choose a file</span>
+                  <span class="file-label"> Choose a file… </span>
                 </span>
+                <span class="file-name"></span>
               </label>
+            </div>
+            <!-- Other text info -->
+            <div class="field mt-3">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Text input" />
+              </div>
             </div>
             <input class="button mt-2" type="submit" value="Upload" />
           </form>

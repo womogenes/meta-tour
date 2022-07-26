@@ -2,6 +2,7 @@ console.info('Page (re)loaded');
 
 import { startVideoRecording, stopVideoRecording } from './video.js';
 import { socket } from './config.js';
+import './file-upload.js';
 
 window.startBtn = document.querySelector('#start-button');
 window.stopBtn = document.querySelector('#stop-button');
@@ -87,5 +88,8 @@ const sendInfo = () => {
 };
 
 // Actually run stuff!
-document.querySelector('.notification').style.display =
-  DeviceMotionEvent.requestPermission ? 'none' : 'block';
+let dataAvailable = DeviceMotionEvent.requestPermission;
+document.querySelector('.notification').style.display = dataAvailable
+  ? 'none'
+  : 'block';
+startBtn.disabled = dataAvailable ? 'none' : 'block';
