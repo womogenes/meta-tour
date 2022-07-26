@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from pprint import pprint
 import logging
 from hashlib import sha256
+from uuid import uuid4
+import datetime as dt
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
@@ -35,25 +37,27 @@ def allowed_file(filename):
            filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/", methods=["GET", "POST"])
-def upload_file():
-    if request.method == "POST":
-        pprint(request)
+def upload_data():
+    if request.method != "POST":
+        return
 
-        # check if the post request has the file part
-        if "file" not in request.files:
-            print("No file part")
-            return redirect(request.url)
+    # Data processing will go here, but for now,
+    #   there's just print statements for debugging.
 
-        file = request.files["file"]
-        # If the user does not select a file, the browser submits an empty file without a filename.
-        if file.filename == "":
-            flash("No selected file")
-            return redirect(request.url)
+    user_id = str(uuid4())
+        
+    print(f"\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
+    print("**Data fields**")
+    print(request.files.to_dict())
+    
+    print()
+    print("**Text fields**")
+    pprint(request.form.to_dict())
 
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-            return redirect(url_for("show_results", name=filename))
+    print()
+    print(f"User ID: {user_id}")
+
+    return user_id, 201
 
 
 

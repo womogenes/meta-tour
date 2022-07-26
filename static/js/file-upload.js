@@ -6,7 +6,3 @@ fileInput.onchange = () => {
     fileName.textContent = fileInput.files[0].name;
   }
 };
-
-fileInput.onsubmit = () => {
-  return false;
-};

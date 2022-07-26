@@ -24,12 +24,16 @@ ENV=development
 
 To start the server, run `python server.py`.
 
-## Production
+### Production
 
 Not entirely figured out yet, but there's currently a Heroku app running this with gunicorn at https://meta-tour.herokuapp.com.
 
 ## How stuff works
 
-The server opens a socket.io that has a single event for now called `motion-reading`. Currently it just logs the data, but this will be passed onto our other scripts in the future.
+Everything will be handled through HTTP requests. No streaming or anything, just basic web stuff.
 
-We plan to add a `camera-reading` event that takes in image data too.
+The API is described more thoroughly in `API.md`, but the basic rundown is this:
+
+1. The client (app) walks around while recording accelerometer/gyroscope data and occasionally videos. They client records all of this data and formats it.
+2. Once they're done, they send data to the server through a POST request. The server responds to this request with a unique URL that the client can visit after the data's done processing.
+3. The server starts processing the data, and once it's done, makes it available at some web URL that the user can now visit.
