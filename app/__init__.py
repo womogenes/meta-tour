@@ -9,6 +9,8 @@ from hashlib import sha256
 from uuid import uuid4
 import datetime as dt
 
+from database import get_map, add_map
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
@@ -56,6 +58,8 @@ def upload_data():
 
     print()
     print(f"User ID: {user_id}")
+
+    add_map(request.form.to_dict(), user_id)
 
     return user_id, 201
 
