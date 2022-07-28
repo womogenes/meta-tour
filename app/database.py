@@ -6,16 +6,16 @@ load_dotenv()
 
 client = MongoClient(os.environ.get("MONGO_URL"))
 db = client.main
-maps = db.maps
+tours = db.tours
 
 
-def add_map(data, user_id):
+def add_tour(data, user_id):
     document = {
-        "map_id": user_id,
+        "tour_id": user_id,
         "data": data
     }
-    maps.insert_one(document)
+    tours.insert_one(document)
 
 
-def get_map(user_id):
-    return maps.find_one({ "map_id": user_id })
+def get_tour(user_id):
+    return tours.find_one({ "tour_id": user_id })

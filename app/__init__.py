@@ -9,7 +9,7 @@ from hashlib import sha256
 from uuid import uuid4
 import datetime as dt
 
-from database import get_map, add_map
+from database import get_tour, add_tour
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
@@ -34,22 +34,21 @@ def main_page():
 
 
 
-@app.route("/maps")
-def show_maps():
+@app.route("/tours")
+def show_tours():
     """
-    List all the maps.
+    List all the tours.
     """
-    return render_template("all-maps.html")
+    return render_template("all-tours.html")
 
 
-@app.route("/maps/<map_id>")
-def show_single_map(map_id):
+@app.route("/tours/<tour_id>")
+def show_single_tour(tour_id):
     """
-    Show one specific map.
+    Show one specific tour.
     """
-    user_map = get_map(map_id)
-    del user_map["_id"]
-    return render_template("single-map.html", user_map=user_map)
+    user_tour = get_tour(tour_id)
+    return render_template("single-tour.html", user_tour=user_tour)
 
 
 
@@ -63,7 +62,7 @@ def upload_data():
     # Data processing will go here, but for now,
     #   there's just print statements for debugging.
 
-    map_id = str(uuid4())
+    tour_id = str(uuid4())
         
     print(f"\n\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
     print("**Data fields**")
@@ -74,11 +73,11 @@ def upload_data():
     pprint(request.form.to_dict())
 
     print()
-    print(f"User ID: {map_id}")
+    print(f"User ID: {tour_id}")
 
-    add_map(request.form.to_dict(), map_id)
+    add_tour(request.form.to_dict(), tour_id)
 
-    return redirect(f"/maps/{map_id}", code=302)
+    return redirect(f"/tours/{tour_id}", code=302)
 
 
 
