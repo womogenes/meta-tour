@@ -1,8 +1,12 @@
 const fileInput = document.querySelector('input[type=file]');
+const fileNameEl = document.querySelector('#filenames');
 
 fileInput.onchange = () => {
-  if (fileInput.files.length > 0) {
-    const fileName = document.querySelector('.file-name');
-    fileName.textContent = fileInput.files[0].name;
+  console.info('hello');
+  const selectedFiles = [...fileInput.files];
+
+  fileNameEl.innerHTML = '';
+  for (const file of selectedFiles) {
+    fileNameEl.innerHTML += `<li>${file.name}</li>`;
   }
 };

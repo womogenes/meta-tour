@@ -54,53 +54,53 @@
             action="/upload-data"
           >
             <!-- File -->
-            <div class="file has-name is-boxed">
-              <label class="file-label">
-                <input class="file-input" type="file" name="file" />
-                <span class="file-cta">
-                  <span class="file-label"> Choose a file… </span>
-                </span>
-                <span class="file-name"></span>
-              </label>
+            <div id="file-input">
+              <b>File inputs</b>
+              <div class="my-3">
+                <label class="file-label">
+                  <input
+                    class="file-input"
+                    type="file"
+                    name="files[]"
+                    multiple
+                  />
+                  <span class="file-cta">
+                    <span class="file-label">Select files</span>
+                  </span>
+                </label>
+              </div>
+              <div class="ml-5">
+                <ol id="filenames"></ol>
+              </div>
             </div>
 
             <!-- Other text info -->
-            <div class="field mt-3">
-              <label class="label">Tour name *</label>
-              <input
-                class="input"
-                type="text"
-                placeholder="Tour name"
-                name="title"
-                autocomplete="off"
-                required
-              />
+
+            <div class="mt-5" id="text-input">
+              <div class="field mt-3">
+                <label class="label">Tour name *</label>
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="Tour name"
+                  name="title"
+                  autocomplete="off"
+                  required
+                />
+              </div>
+              <div class="field mt-3">
+                <label class="label">Description</label>
+                <textarea
+                  class="textarea"
+                  type="text"
+                  placeholder="Description"
+                  name="description"
+                  autocomplete="off"
+                ></textarea>
+              </div>
             </div>
 
-            <div class="field mt-3">
-              <label class="label">Description</label>
-              <textarea
-                class="textarea"
-                type="text"
-                placeholder="Description"
-                name="description"
-                autocomplete="off"
-              ></textarea>
-            </div>
-
-            <div class="field mt-3">
-              <label class="label">Tour data</label>
-              <textarea
-                id="tour-data"
-                class="textarea"
-                type="text"
-                placeholder="0123456789"
-                name="tour-data"
-                autocomplete="off"
-              ></textarea>
-            </div>
-
-            <input class="button mt-2" type="submit" value="Upload" />
+            <input class="button mt-3" type="submit" value="Upload" />
           </form>
         </div>
 
