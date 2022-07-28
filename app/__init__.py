@@ -43,7 +43,7 @@ def show_tours():
     """
     List all the tours.
     """
-    all_tours = tours.find({})
+    all_tours = list(tours.find({}))
     return render_template("all-tours.html", tours=all_tours)
 
 

@@ -5,9 +5,9 @@
     {% include 'common/head.html' %}
 
     <link rel="stylesheet" href="css/capture.css" />
-    <script src="../js/main.js" type="module" defer></script>
+    <script src="js/capture.js" type="module" defer></script>
 
-    <title>Sensor test</title>
+    <title>Capture</title>
   </head>
 
   <body>
@@ -16,33 +16,35 @@
     <main class="container is-max-desktop">
       <div class="columns is-mobile">
         <div class="column">
-          <h1 class="title is-1">Sensor test</h1>
+          <h1 class="title is-1">Capture a tour</h1>
 
-          <div class="notification is-danger">
-            <span>Sensor API not available 🙁</span>
+          <div id="readings-container">
+            <div class="notification is-danger" style="display: none">
+              <span>Sensor API not available 🙁</span>
+            </div>
+
+            <p>Orientation:&nbsp; <span id="orientation"></span></p>
+            <p>Acceleration: <span id="acceleration"></span></p>
+            <p>Readings: <span id="readings"></span></p>
+
+            <button
+              class="button mt-2"
+              onclick="startCapture()"
+              id="start-button"
+              disabled
+            >
+              Start capture
+            </button>
+
+            <button
+              class="button mt-2"
+              onclick="stopCapture()"
+              id="stop-button"
+              disabled
+            >
+              Stop capture
+            </button>
           </div>
-
-          <p>Orientation:&nbsp; <span id="orientation"></span></p>
-          <p>Acceleration: <span id="acceleration"></span></p>
-          <p>Readings: <span id="readings"></span></p>
-
-          <button
-            class="button mt-2"
-            onclick="startCapture()"
-            id="start-button"
-            disabled
-          >
-            Start capture
-          </button>
-
-          <button
-            class="button mt-2"
-            onclick="stopCapture()"
-            id="stop-button"
-            disabled
-          >
-            Stop capture
-          </button>
 
           <!-- File upload -->
           <form
@@ -64,14 +66,38 @@
 
             <!-- Other text info -->
             <div class="field mt-3">
-              <label class="label">Labels</label>
+              <label class="label">Tour name *</label>
               <input
                 class="input"
                 type="text"
-                placeholder="Input"
-                name="text-data-0"
+                placeholder="Tour name"
+                name="title"
                 autocomplete="off"
+                required
               />
+            </div>
+
+            <div class="field mt-3">
+              <label class="label">Description</label>
+              <textarea
+                class="textarea"
+                type="text"
+                placeholder="Description"
+                name="description"
+                autocomplete="off"
+              ></textarea>
+            </div>
+
+            <div class="field mt-3">
+              <label class="label">Tour data</label>
+              <textarea
+                id="tour-data"
+                class="textarea"
+                type="text"
+                placeholder="0123456789"
+                name="tour-data"
+                autocomplete="off"
+              ></textarea>
             </div>
 
             <input class="button mt-2" type="submit" value="Upload" />

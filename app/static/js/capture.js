@@ -92,6 +92,11 @@ let dataAvailable = DeviceMotionEvent.requestPermission;
 document.querySelector('.notification').style.display = dataAvailable
   ? 'none'
   : 'block';
-startBtn.disabled = dataAvailable ? 'none' : 'block';
+startBtn.disabled = !dataAvailable;
 
-console.log(dataAvailable);
+// https://stackoverflow.com/questions/58325771/how-to-generate-random-hex-string-in-javascript
+const genRanHex = (size) =>
+  [...Array(size)]
+    .map(() => Math.floor(Math.random() * 16).toString(16))
+    .join('');
+document.querySelector('#tour-data').innerText = genRanHex(100);

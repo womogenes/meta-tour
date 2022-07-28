@@ -13,11 +13,11 @@ let constraints = {
 
 let videoData = [];
 
-navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
-  video.srcObject = stream;
-  document.querySelector('#video-loader').remove();
-  startBtn.disabled = false;
-});
+// navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
+//   video.srcObject = stream;
+//   document.querySelector('#video-loader').remove();
+//   startBtn.disabled = false;
+// });
 
 export const startVideoRecording = () => {
   return;
