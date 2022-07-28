@@ -26,28 +26,44 @@ socketio = SocketIO(app)
 ALLOWED_EXTENSIONS = {"webm", "mp4", "png"}
 app.config["UPLOAD_FOLDER"] = "./uploads"
 
+
 @app.route("/")
 def main_page():
     """Serve main page"""
     return send_from_directory("static", "index.html")
 
-@app.route("/results")
-def show_results():
+
+
+@app.route("/maps")
+def show_maps():
+    """
+    List all the maps.
+    """
     return send_from_directory("static", "results.html")
+
+
+@app.route("/maps/<map_id>")
+def show_one_map(map_id):
+    """
+    Show one specific map.
+    """
+    map = get_map(map_id)
+    print(map)
+    return send_from_directory("static", "results.html")
+
+
 
 def allowed_file(filename):
     return "." in filename and \
            filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/", methods=["GET", "POST"])
-def upload_data():
-    if request.method != "POST":
-        return
 
+@app.route("/upload-data", methods=["POST"])
+def upload_data():
     # Data processing will go here, but for now,
     #   there's just print statements for debugging.
 
-    user_id = str(uuid4())
+    map_id = str(uuid4())
         
     print(f"\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
     print("**Data fields**")
@@ -58,11 +74,11 @@ def upload_data():
     pprint(request.form.to_dict())
 
     print()
-    print(f"User ID: {user_id}")
+    print(f"User ID: {map_id}")
 
-    add_map(request.form.to_dict(), user_id)
+    add_map(request.form.to_dict(), map_id)
 
-    return user_id, 201
+    return redirect(f"/maps/{map_id}", code=302)
 
 
 

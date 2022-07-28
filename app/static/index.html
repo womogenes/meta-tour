@@ -52,7 +52,12 @@
           </button>
 
           <!-- File upload -->
-          <form class="mt-4 box" method="post" enctype="multipart/form-data">
+          <form
+            class="mt-4 box"
+            method="post"
+            enctype="multipart/form-data"
+            action="/upload-data"
+          >
             <!-- File -->
             <div class="file has-name is-boxed">
               <label class="file-label">
@@ -71,7 +76,7 @@
                 class="input"
                 type="text"
                 placeholder="Input"
-                name="hello"
+                name="data"
                 autocomplete="off"
               />
             </div>
