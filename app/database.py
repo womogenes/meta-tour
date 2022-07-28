@@ -11,11 +11,11 @@ maps = db.maps
 
 def add_map(data, user_id):
     document = {
-        "user_id": user_id,
+        "map_id": user_id,
         "data": data
     }
     maps.insert_one(document)
 
 
 def get_map(user_id):
-    return maps.find_one({ "user_id": user_id })
+    return maps.find_one({ "map_id": user_id })

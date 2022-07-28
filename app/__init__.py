@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, flash, redirect, url_for
+from flask import Flask, send_from_directory, request, flash, redirect, render_template
 from werkzeug.utils import secure_filename
 import os
 from flask_socketio import SocketIO
@@ -30,7 +30,7 @@ app.config["UPLOAD_FOLDER"] = "./uploads"
 @app.route("/")
 def main_page():
     """Serve main page"""
-    return send_from_directory("static", "index.html")
+    return render_template("index.html")
 
 
 
@@ -39,17 +39,17 @@ def show_maps():
     """
     List all the maps.
     """
-    return send_from_directory("static", "results.html")
+    return render_template("all-maps.html")
 
 
 @app.route("/maps/<map_id>")
-def show_one_map(map_id):
+def show_single_map(map_id):
     """
     Show one specific map.
     """
-    map = get_map(map_id)
-    print(map)
-    return send_from_directory("static", "results.html")
+    user_map = get_map(map_id)
+    del user_map["_id"]
+    return render_template("single-map.html", user_map=user_map)
 
 
 
@@ -65,7 +65,7 @@ def upload_data():
 
     map_id = str(uuid4())
         
-    print(f"\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
+    print(f"\n\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
     print("**Data fields**")
     print(request.files.to_dict())
     

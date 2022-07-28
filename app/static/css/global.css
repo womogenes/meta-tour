@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+html {
+  overflow-y: auto;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  padding: 2em 2em;
+}
