@@ -2,10 +2,12 @@ console.info('Page (re)loaded');
 
 import { startVideoRecording, stopVideoRecording } from './video.js';
 import { socket } from './config.js';
-import './file-upload.js';
+import './upload.js';
 
 window.startBtn = document.querySelector('#start-button');
 window.stopBtn = document.querySelector('#stop-button');
+const submitBtn = document.querySelector('#submit-button');
+
 let readings = 0;
 
 let bearing = { alpha: NaN, beta: NaN, gamma: NaN };
@@ -55,7 +57,7 @@ window.startCapture = () => {
 
       startVideoRecording();
 
-      sendInfoInterval = window.setInterval(sendInfo, 10);
+      // sendInfoInterval = window.setInterval(sendInfo, 10);
     } else {
       document.querySelector('.notification').style.display = 'block';
     }
@@ -65,11 +67,13 @@ window.startCapture = () => {
 window.stopCapture = () => {
   stopBtn.disabled = true;
   startBtn.disabled = false;
+  submitBtn.disabled = false;
 
-  window.clearInterval(sendInfoInterval);
+  //window.clearInterval(sendInfoInterval);
   window.removeEventListener('devicemotion', accelerationHandler);
   window.removeEventListener('deviceorientation', orientationHandler);
-  stopVideoRecording();
+
+  window.blob = stopVideoRecording();
 };
 
 const sendInfo = () => {
@@ -93,10 +97,3 @@ document.querySelector('.notification').style.display = dataAvailable
   ? 'none'
   : 'block';
 startBtn.disabled = !dataAvailable;
-
-// https://stackoverflow.com/questions/58325771/how-to-generate-random-hex-string-in-javascript
-const genRanHex = (size) =>
-  [...Array(size)]
-    .map(() => Math.floor(Math.random() * 16).toString(16))
-    .join('');
-document.querySelector('#tour-data').innerText = genRanHex(100);

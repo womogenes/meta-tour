@@ -7,25 +7,21 @@ let video = document.querySelector('#video-preview');
 let constraints = {
   audio: false,
   video: {
-    facingMode: 'user',
+    facingMode: 'environment',
   },
 };
 
-let videoData = [];
+export const videoData = [];
 
-// navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
-//   video.srcObject = stream;
-//   document.querySelector('#video-loader').remove();
-//   startBtn.disabled = false;
-// });
+navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
+  video.srcObject = stream;
+  document.querySelector('#video-loader').remove();
+  window.startBtn.disabled = false;
+});
 
 export const startVideoRecording = () => {
-  return;
-
   let recorder = new MediaRecorder(video.srcObject);
-  alert(recorder.getVideoTracks);
-  let videoTrack = recorder.getVideoTracks()[0];
-  alert('hi');
+  recorder.ondataavailable = (event) => videoData.push(event.data);
 
   recorder.start(120);
 
@@ -33,7 +29,11 @@ export const startVideoRecording = () => {
 };
 
 export const stopVideoRecording = () => {
-  return;
-
   video.srcObject.getTracks().forEach((track) => track.stop());
+
+  video.style.display = 'none';
+
+  let recordedBlob = new Blob(videoData, { type: 'video/webm' });
+  // return URL.createObjectURL(recordedBlob);
+  return recordedBlob;
 };

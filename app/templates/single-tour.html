@@ -14,10 +14,13 @@
     {% include 'common/navbar.html' %}
     
     <main class="container is-max-desktop">
-      <h1 class="title is-1">{{tour.data.title}}</h1>
-      <p class="subtitle">{{tour.data.description}}</p>
 
       {% if tour is not none %}
+      <div class="mb-5">
+        <h1 class="title is-1">{{tour.data.title}}</h1>
+        <p class="subtitle">{{tour.data.description}}</p>
+      </div>
+
       <p><b>Tour ID</b></</p>
       <p><code>{{tour.tour_id}}</code></p>
       <br>
@@ -26,9 +29,10 @@
       <code>{{tour.data}}</code>
 
       {% else %}
+      <h1 class="title is-1">Tour not fully processed</h1>
       <article class="message is-danger container">
         <div class="message-body">
-          <span>This tour was probably removed.</span>
+          <span>This tour was removed, or hasn't been fully processed yet. Please come back in a few minutes and check.</span>
         </div>
       </article>
       {% endif %}
