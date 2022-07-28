@@ -3,8 +3,8 @@ from app import app, socketio
 
 if os.environ.get("HTTPS") == "on":
     ssl_context = {
-        "certfile": os.path.abspath("static/server.crt"),
-        "keyfile": os.path.abspath("static/server.key")
+        "certfile": os.path.abspath("app/static/server.crt"),
+        "keyfile": os.path.abspath("app/static/server.key")
     }
 else:
     ssl_context = dict()

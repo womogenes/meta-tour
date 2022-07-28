@@ -4,18 +4,26 @@
     <base href="/" />
     {% include 'common/head.html' %}
 
-    <title>All tours</title>
+    <title>View tour</title>
 
     <link rel="stylesheet" href="css/single-tour.css" />
     <script src="js/single-tour.js" defer></script>
   </head>
 
   <body>
+    {% include 'common/navbar.html' %}
+    
     <main class="container is-max-desktop">
-      <h1 class="title is-1">View this tour</h1>
+      <h1 class="title is-1">View tour</h1>
 
-      {% if user_tour is not none %}
-      <span>{{user_tour}}</span>
+      {% if tour is not none %}
+      <p><b>Tour ID</b></</p>
+      <p><code>{{tour.tour_id}}</code></p>
+      <br>
+
+      <p><b>Data</b></p>
+      <code>{{tour.data}}</code>
+
       {% else %}
       <article class="message is-danger container">
         <div class="message-body">

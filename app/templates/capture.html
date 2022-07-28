@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="/" />
+    {% include 'common/head.html' %}
+
+    <link rel="stylesheet" href="css/capture.css" />
+    <script src="../js/main.js" type="module" defer></script>
+
+    <title>Sensor test</title>
+  </head>
+
+  <body>
+    {% include 'common/navbar.html' %}
+
+    <main class="container is-max-desktop">
+      <div class="columns is-mobile">
+        <div class="column">
+          <h1 class="title is-1">Sensor test</h1>
+
+          <div class="notification is-danger">
+            <span>Sensor API not available 🙁</span>
+          </div>
+
+          <p>Orientation:&nbsp; <span id="orientation"></span></p>
+          <p>Acceleration: <span id="acceleration"></span></p>
+          <p>Readings: <span id="readings"></span></p>
+
+          <button
+            class="button mt-2"
+            onclick="startCapture()"
+            id="start-button"
+            disabled
+          >
+            Start capture
+          </button>
+
+          <button
+            class="button mt-2"
+            onclick="stopCapture()"
+            id="stop-button"
+            disabled
+          >
+            Stop capture
+          </button>
+
+          <!-- File upload -->
+          <form
+            class="mt-4 box"
+            method="post"
+            enctype="multipart/form-data"
+            action="/upload-data"
+          >
+            <!-- File -->
+            <div class="file has-name is-boxed">
+              <label class="file-label">
+                <input class="file-input" type="file" name="file" />
+                <span class="file-cta">
+                  <span class="file-label"> Choose a file… </span>
+                </span>
+                <span class="file-name"></span>
+              </label>
+            </div>
+
+            <!-- Other text info -->
+            <div class="field mt-3">
+              <label class="label">Labels</label>
+              <input
+                class="input"
+                type="text"
+                placeholder="Input"
+                name="text-data-0"
+                autocomplete="off"
+              />
+            </div>
+
+            <input class="button mt-2" type="submit" value="Upload" />
+          </form>
+        </div>
+
+        <div id="video-container" class="column">
+          <b>Video preview</b>
+          <div class="loader mt-2" id="video-loader"></div>
+
+          <video
+            class="mt-1"
+            id="video-preview"
+            autoplay
+            muted
+            playsinline
+          ></video>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

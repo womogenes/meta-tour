@@ -9,7 +9,7 @@ from hashlib import sha256
 from uuid import uuid4
 import datetime as dt
 
-from .database import get_tour, add_tour
+from .database import get_tour, add_tour, tours
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
@@ -33,13 +33,18 @@ def main_page():
     return render_template("index.html")
 
 
+@app.route("/capture")
+def capture_page():
+    return render_template("capture.html")
+
 
 @app.route("/tours")
 def show_tours():
     """
     List all the tours.
     """
-    return render_template("all-tours.html")
+    all_tours = tours.find({})
+    return render_template("all-tours.html", tours=all_tours)
 
 
 @app.route("/tours/<tour_id>")
@@ -47,8 +52,8 @@ def show_single_tour(tour_id):
     """
     Show one specific tour.
     """
-    user_tour = get_tour(tour_id)
-    return render_template("single-tour.html", user_tour=user_tour)
+    tour = get_tour(tour_id)
+    return render_template("single-tour.html", tour=tour)
 
 
 

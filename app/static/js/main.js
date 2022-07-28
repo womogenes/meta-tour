@@ -93,3 +93,5 @@ document.querySelector('.notification').style.display = dataAvailable
   ? 'none'
   : 'block';
 startBtn.disabled = dataAvailable ? 'none' : 'block';
+
+console.log(dataAvailable);
