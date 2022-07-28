@@ -9,7 +9,7 @@ from hashlib import sha256
 from uuid import uuid4
 import datetime as dt
 
-from database import get_tour, add_tour
+from .database import get_tour, add_tour
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
@@ -80,19 +80,7 @@ def upload_data():
     return redirect(f"/tours/{tour_id}", code=302)
 
 
-
-if __name__ == "__main__":
-    logging.getLogger("socketio").setLevel(logging.ERROR)
-    logging.getLogger("engineio").setLevel(logging.ERROR)
-    logging.getLogger("eventlet").setLevel(logging.ERROR)
-    logging.getLogger("eventletwebsocket.handler").setLevel(logging.ERROR)
-
-    if os.environ.get("HTTPS") == "on":
-        ssl_context = {
-            "certfile": os.path.abspath("static/server.crt"),
-            "keyfile": os.path.abspath("static/server.key")
-        }
-    else:
-        ssl_context = dict()
-
-    socketio.run(app, debug=True, host="0.0.0.0", log_output=False, **ssl_context)
+logging.getLogger("socketio").setLevel(logging.ERROR)
+logging.getLogger("engineio").setLevel(logging.ERROR)
+logging.getLogger("eventlet").setLevel(logging.ERROR)
+logging.getLogger("eventletwebsocket.handler").setLevel(logging.ERROR)

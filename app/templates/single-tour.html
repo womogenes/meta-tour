@@ -11,9 +11,18 @@
   </head>
 
   <body>
-    <main>
-      <h1 class="title is-1">Your tour</h1>
+    <main class="container is-max-desktop">
+      <h1 class="title is-1">View this tour</h1>
+
+      {% if user_tour is not none %}
       <span>{{user_tour}}</span>
+      {% else %}
+      <article class="message is-danger container">
+        <div class="message-body">
+          <span>This tour was probably removed.</span>
+        </div>
+      </article>
+      {% endif %}
     </main>
   </body>
 </html>
