@@ -18,6 +18,7 @@ app = Flask(__name__,
             static_url_path="",
             static_folder="static")
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+app.config["PORT"] = int(os.environ.get("PORT"))
 socketio = SocketIO(app)
 
 
@@ -79,4 +80,4 @@ if __name__ == "__main__":
     else:
         ssl_context = dict()
 
-    socketio.run(app, debug=True, port=5000, host="0.0.0.0", log_output=False, **ssl_context)
+    socketio.run(app, debug=True, host="0.0.0.0", log_output=False, **ssl_context)
