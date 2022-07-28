@@ -20,6 +20,8 @@ navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
 });
 
 export const startVideoRecording = () => {
+  return;
+
   let recorder = new MediaRecorder(video.srcObject);
   alert(recorder.getVideoTracks);
   let videoTrack = recorder.getVideoTracks()[0];
@@ -31,5 +33,7 @@ export const startVideoRecording = () => {
 };
 
 export const stopVideoRecording = () => {
+  return;
+
   video.srcObject.getTracks().forEach((track) => track.stop());
 };
