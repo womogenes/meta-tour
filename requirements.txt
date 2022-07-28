@@ -4,3 +4,4 @@ Flask-SocketIO
 eventlet==0.30.2
 gevent-websocket
 python-dotenv
+pymongo
