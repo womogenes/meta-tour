@@ -28,6 +28,17 @@ ALLOWED_EXTENSIONS = {"webm", "mp4", "png"}
 app.config["UPLOAD_FOLDER"] = "./uploads"
 
 
+
+
+def sizeof_fmt(num, suffix="B"):
+    for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
+        if abs(num) < 1000:
+            return f"{num:3.1f} {unit}{suffix}"
+        num /= 1000
+    return f"{num:.1f} Y{suffix}"
+
+
+
 @app.route("/")
 def main_page():
     """Serve main page"""
@@ -52,8 +63,8 @@ def show_tours():
 
 @app.route("/tour-data/<tour_id>")
 def get_data(tour_id):    
-    tour = get_tour(tour_id)
-    return Response(tour["text"]["readings"], mimetype="application/json")
+    data = get_tour(tour_id)["text"]["readings"]
+    return Response(data, mimetype="application/json")
 
 
 @app.route("/tours/<tour_id>")
@@ -62,7 +73,7 @@ def show_single_tour(tour_id):
     Show one specific tour.
     """
     tour = get_tour(tour_id)
-    return render_template("single-tour.html", tour=tour)
+    return render_template("single-tour.html", readings_size=sizeof_fmt(len(tour["text"]["readings"].encode())), tour=tour)
 
 
 

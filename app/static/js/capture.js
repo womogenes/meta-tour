@@ -66,7 +66,6 @@ window.startCapture = () => {
 
 window.stopCapture = () => {
   stopBtn.disabled = true;
-  startBtn.disabled = false;
   submitBtn.disabled = false;
 
   window.clearInterval(recordInfoInterval);

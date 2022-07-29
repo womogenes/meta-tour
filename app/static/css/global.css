@@ -11,3 +11,7 @@ body {
 main {
   padding: 2em 1.5em;
 }
+
+code {
+  word-wrap: break-word;
+}
