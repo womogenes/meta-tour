@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, flash, redirect, render_template
+from flask import Flask, send_from_directory, request, flash, redirect, render_template, Response
 from werkzeug.utils import secure_filename
 import os
 from dotenv import load_dotenv
@@ -8,6 +8,7 @@ from hashlib import sha256
 from uuid import uuid4
 import datetime as dt
 from threading import Thread
+import random
 
 from .database import get_tour, add_tour, tours
 from .config import app
@@ -15,6 +16,12 @@ from .config import app
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
+print(os.getcwd())
+
+with open("./app/static/data/adjectives.txt") as fin:
+    ADJECTIVES = fin.read().strip().split("\n")
+with open("./app/static/data/adverbs.txt") as fin:
+    ADVERBS = fin.read().strip().split("\n")
 
 # File uploads
 ALLOWED_EXTENSIONS = {"webm", "mp4", "png"}
@@ -29,7 +36,8 @@ def main_page():
 
 @app.route("/capture")
 def capture_page():
-    return render_template("capture.html")
+    default_name = f"{random.choice(ADVERBS)} {random.choice(ADJECTIVES)} tour"
+    return render_template("capture.html", default_name=default_name)
 
 
 @app.route("/tours")
@@ -37,8 +45,15 @@ def show_tours():
     """
     List all the tours.
     """
-    all_tours = list(tours.find({}))
+    all_tours = list(tours.find({}).sort([("timestamp", -1)]))
     return render_template("all-tours.html", tours=all_tours)
+
+
+
+@app.route("/tour-data/<tour_id>")
+def get_data(tour_id):    
+    tour = get_tour(tour_id)
+    return Response(tour["text"]["readings"], mimetype="application/json")
 
 
 @app.route("/tours/<tour_id>")
@@ -69,7 +84,10 @@ def upload_data():
     
     print()
     print("**Text fields**")
-    pprint(request.form.to_dict())
+    if len(str(request.form.to_dict())) > 100:
+        print(str(request.form.to_dict())[:100])
+    else:
+        pprint(request.form.to_dict())
 
     print()
     print(f"User ID: {tour_id}")

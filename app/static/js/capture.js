@@ -3,41 +3,41 @@ console.info('Page (re)loaded');
 import { startVideoRecording, stopVideoRecording } from './video.js';
 import { socket } from './config.js';
 import './upload.js';
+import { $, genRanHex } from './utils.js';
 
-window.startBtn = document.querySelector('#start-button');
-window.stopBtn = document.querySelector('#stop-button');
-const submitBtn = document.querySelector('#submit-button');
+window.startBtn = $('#start-button');
+window.stopBtn = $('#stop-button');
+const submitBtn = $('#submit-button');
 
 let readings = 0;
 
 let bearing = { alpha: NaN, beta: NaN, gamma: NaN };
 let acceleration = { x: NaN, y: NaN, z: NaN };
 let startTime;
-let sendInfoInterval;
+let recordInfoInterval;
+export let motionData = [];
 
 const format = (value) => {
   return (Math.round(value * 100) / 100).toFixed(2).padStart(6, ' ');
 };
 
 const accelerationHandler = (event) => {
-  const { x, y, z } = event.accelerationIncludingGravity;
+  const { x, y, z } = event.acceleration;
   acceleration = {
     x: x / 9.8,
     y: y / 9.8,
     z: z / 9.8,
   };
 
-  document.querySelector('#acceleration').innerText = `${format(x)}, ${format(
-    y
-  )}, ${format(z)}`;
+  $('#acceleration').innerText = `${format(x)}, ${format(y)}, ${format(z)}`;
 };
 
 const orientationHandler = (event) => {
   const { alpha, beta, gamma } = event;
   bearing = { alpha, beta, gamma };
-  document.querySelector('#orientation').innerText = `${format(
-    alpha
-  )}, ${format(beta)}, ${format(gamma)}`;
+  $('#orientation').innerText = `${format(alpha)}, ${format(beta)}, ${format(
+    gamma
+  )}`;
 };
 
 window.startCapture = () => {
@@ -57,9 +57,9 @@ window.startCapture = () => {
 
       startVideoRecording();
 
-      // sendInfoInterval = window.setInterval(sendInfo, 10);
+      recordInfoInterval = window.setInterval(recordInfo, 10);
     } else {
-      document.querySelector('.notification').style.display = 'block';
+      $('.notification').style.display = 'block';
     }
   });
 };
@@ -69,17 +69,21 @@ window.stopCapture = () => {
   startBtn.disabled = false;
   submitBtn.disabled = false;
 
-  //window.clearInterval(sendInfoInterval);
+  window.clearInterval(recordInfoInterval);
   window.removeEventListener('devicemotion', accelerationHandler);
   window.removeEventListener('deviceorientation', orientationHandler);
-
   window.blob = stopVideoRecording();
+
+  $('#data-form').style.display = 'block';
 };
 
-const sendInfo = () => {
+const recordInfo = () => {
   readings++;
   const time = Date.now() - startTime;
-  socket.emit('motion-reading', [
+
+  if (!bearing.alpha) return;
+
+  motionData.push([
     time,
     bearing.alpha,
     bearing.beta,
@@ -88,12 +92,9 @@ const sendInfo = () => {
     acceleration.y,
     acceleration.z,
   ]);
-  document.querySelector('#readings').innerText = readings;
+  $('#readings').innerText = readings;
 };
 
 // Actually run stuff!
 let dataAvailable = DeviceMotionEvent.requestPermission;
-document.querySelector('.notification').style.display = dataAvailable
-  ? 'none'
-  : 'block';
-startBtn.disabled = !dataAvailable;
+$('.notification').style.display = dataAvailable ? 'none' : 'block';

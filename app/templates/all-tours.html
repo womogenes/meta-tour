@@ -25,11 +25,17 @@
             <p class="title is-4">{{tour.title}}</p>
             <p class="subtitle is-7"><code>{{tour.tour_id}}</code></p>
           </a>
-          <p>{{tour.timestamp.strftime('%B %d, %Y at %H:%M')}}</p>
+          <p class="is-7 pt-1">
+            {{tour.timestamp.strftime('%B %d, %Y at %I:%M %p')}}
+          </p>
 
-          {% if tour.description is not none %}
+          {% if tour.description|length > 0 %}
           <div class="content mt-3">
             <p>{{tour.description}}</p>
+          </div>
+          {% else %}
+          <div class="content mt-3">
+            <p class="has-text-grey">No description.</p>
           </div>
           {% endif %}
         </div>

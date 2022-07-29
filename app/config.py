@@ -11,8 +11,7 @@ logging.getLogger("eventlet").setLevel(logging.ERROR)
 logging.getLogger("eventletwebsocket.handler").setLevel(logging.ERROR)
 
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, ".env"))
+load_dotenv(os.path.abspath(".env"))
 
 app = Flask(__name__,
             static_url_path="",

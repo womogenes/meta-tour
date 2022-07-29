@@ -26,7 +26,6 @@ def extractImages(path_in):
     while success:
         vidcap.set(cv2.CAP_PROP_POS_MSEC, (count  *1000))    # added this line 
         success, image = vidcap.read()
-
         return image
 
 
@@ -37,27 +36,29 @@ def add_tour(text_data, raw_file_data, tour_id):
     for file in raw_file_data:
         video_path = f"./app/uploads/{tour_id}/{file}/source.webm"
 
-        # Extract the first frame
-        image = extractImages(video_path)
+        try:
+            # Extract the first frame
+            image = extractImages(video_path)
 
-        # Do some processing; for now, just real basic and then upload
-        image = cv2.rotate(image, cv2.ROTATE_180)
-        kernel = np.array([[0, -1, 0],
-                           [-1, 5,-1],
-                           [0, -1, 0]])
-        image = cv2.filter2D(src=image, ddepth=-1, kernel=kernel)
-        
-        retval, buffer = cv2.imencode(".jpg", image)
-        
+            # Do some processing; for now, just real basic and then upload
+            image = cv2.rotate(image, cv2.ROTATE_180)
+            kernel = np.array([[0, -1, 0],
+                            [-1, 5,-1],
+                            [0, -1, 0]])
+            image = cv2.filter2D(src=image, ddepth=-1, kernel=kernel)        
+            retval, buffer = cv2.imencode(".jpg", image)        
 
-        url = "https://api.imgbb.com/1/upload"
-        payload = {
-            "key": "c3d3c66c31722052dc445b40817ec458",
-            "image": base64.b64encode(buffer),
-        }
-        res = requests.post(url, payload)
-        img_url = res.json()["data"]["url"]
-        file_data[file] = img_url
+            url = "https://api.imgbb.com/1/upload"
+            payload = {
+                "key": "c3d3c66c31722052dc445b40817ec458",
+                "image": base64.b64encode(buffer),
+            }
+            res = requests.post(url, payload)
+            img_url = res.json()["data"]["url"]
+            file_data[file] = img_url
+
+        except:
+            continue
 
 
 
