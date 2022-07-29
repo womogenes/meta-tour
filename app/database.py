@@ -21,12 +21,10 @@ tours = db.tours
 def extractImages(path_in):
     count = 0
     vidcap = cv2.VideoCapture(path_in)
-    success,image = vidcap.read()
-    success = True
-    while success:
-        vidcap.set(cv2.CAP_PROP_POS_MSEC, (count  *1000))    # added this line 
-        success, image = vidcap.read()
-        return image
+    vidcap.set(cv2.CAP_PROP_POS_MSEC, 1000)
+    success, image = vidcap.read()
+    vidcap.release()
+    return image
 
 
 def add_tour(text_data, raw_file_data, tour_id):
@@ -63,7 +61,8 @@ def add_tour(text_data, raw_file_data, tour_id):
 
 
     # Delete everything
-    shutil.rmtree(f"./app/uploads/{tour_id}")
+    if os.environ.get("CLEAR_DATA") == "true":
+        shutil.rmtree(f"./app/uploads/{tour_id}")
 
     title = text_data["title"]
     description = text_data["description"]

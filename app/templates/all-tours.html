@@ -12,40 +12,42 @@
     <main>
       <h1 class="title is-1">All tours</h1>
 
-      {% if tours|length > 0 %} {% for tour in tours %}
-      <div class="card tour mb-5">
-        <div class="card-image">
-          <figure class="image is-4by3">
-            <img src="{{tour.files.video0}}" alt="Tour {{tour.tour_id}}" />
-          </figure>
-        </div>
-
-        <div class="card-content">
-          <a href="/tours/{{tour.tour_id}}">
-            <p class="title is-4">{{tour.title}}</p>
-            <p class="subtitle is-7"><code>{{tour.tour_id}}</code></p>
-          </a>
-          <p class="is-7 pt-1">
-            {{tour.timestamp.strftime('%B %d, %Y at %I:%M %p')}}
-          </p>
-
-          {% if tour.description|length > 0 %}
-          <div class="content mt-3">
-            <p>{{tour.description}}</p>
+      <div class="columns">
+        {% if tours|length > 0 %} {% for tour in tours %}
+        <div class="card tour mb-5 column">
+          <div class="card-image">
+            <figure class="image is-4by3">
+              <img src="{{tour.files.video0}}" alt="Tour {{tour.tour_id}}" />
+            </figure>
           </div>
-          {% else %}
-          <div class="content mt-3">
-            <p class="has-text-grey">No description.</p>
+
+          <div class="card-content">
+            <a href="/tours/{{tour.tour_id}}">
+              <p class="title is-4">{{tour.title}}</p>
+              <p class="subtitle is-7"><code>{{tour.tour_id}}</code></p>
+            </a>
+            <p class="is-7 pt-1">
+              {{tour.timestamp.strftime('%B %d, %Y at %I:%M %p')}}
+            </p>
+
+            {% if tour.description|length > 0 %}
+            <div class="content mt-3">
+              <p>{{tour.description}}</p>
+            </div>
+            {% else %}
+            <div class="content mt-3">
+              <p class="has-text-grey">No description.</p>
+            </div>
+            {% endif %}
           </div>
-          {% endif %}
         </div>
+        {% endfor %} {% else %}
+        <span
+          >No tours have been created yet. Why not
+          <a href="/capture">create one</a>?</span
+        >
+        {% endif %}
       </div>
-      {% endfor %} {% else %}
-      <span
-        >No tours have been created yet. Why not
-        <a href="/capture">create one</a>?</span
-      >
-      {% endif %}
     </main>
   </body>
 </html>
