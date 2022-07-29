@@ -1,5 +1,5 @@
 import os
-from app import app, socketio
+from app.config import app, socketio
 
 if os.environ.get("HTTPS") == "on":
     ssl_context = {

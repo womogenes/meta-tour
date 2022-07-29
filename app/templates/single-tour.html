@@ -17,22 +17,28 @@
 
       {% if tour is not none %}
       <div class="mb-5">
-        <h1 class="title is-1">{{tour.data.title}}</h1>
-        <p class="subtitle">{{tour.data.description}}</p>
+        <h1 class="title is-1">{{tour.title}}</h1>
+        <p class="subtitle">{{tour.description}}</p>
       </div>
 
       <p><b>Tour ID</b></</p>
       <p><code>{{tour.tour_id}}</code></p>
       <br>
 
+      <p><b>Files</b></p>
+      {% for file in tour.files %}
+      <img src="{{tour.files[file]}}" />
+      {% endfor %}
+      <br><br>
+
       <p><b>Data</b></p>
-      <code>{{tour.data}}</code>
+      <code>{{tour.text}}</code>
 
       {% else %}
       <h1 class="title is-1">Tour not fully processed</h1>
       <article class="message is-danger container">
         <div class="message-body">
-          <span>This tour was removed, or hasn't been fully processed yet. Please come back in a few minutes and check.</span>
+          <span>This tour hasn't been fully processed yet. Please come back in a few minutes and check.</span>
         </div>
       </article>
       {% endif %}
