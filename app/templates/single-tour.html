@@ -25,6 +25,10 @@
       <p><code>{{tour.tour_id}}</code></p>
       <br>
 
+      <p><b>Creation date</b></</p>
+      <p>{{tour.timestamp.strftime('%B %d, %Y at %H:%M')}}</p>
+      <br>
+
       <p><b>Files</b></p>
       {% for file in tour.files %}
       <img src="{{tour.files[file]}}" />
@@ -38,7 +42,7 @@
       <h1 class="title is-1">Tour not fully processed</h1>
       <article class="message is-danger container">
         <div class="message-body">
-          <span>This tour hasn't been fully processed yet. Please come back in a few minutes and check.</span>
+          <span id="unprocessed">This tour hasn't been fully processed yet. This page will refresh every 2 seconds.</span>
         </div>
       </article>
       {% endif %}

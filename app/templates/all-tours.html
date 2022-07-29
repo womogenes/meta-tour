@@ -13,25 +13,25 @@
       <h1 class="title is-1">All tours</h1>
 
       {% if tours|length > 0 %} {% for tour in tours %}
-      <div class="card tour mb-4">
-        <!-- <div class="card-image">
+      <div class="card tour mb-5">
+        <div class="card-image">
           <figure class="image is-4by3">
-            <img
-              src="https://source.unsplash.com/random/?nature"
-              alt="Tour {{tour.tour_id}}"
-            />
+            <img src="{{tour.files.video0}}" alt="Tour {{tour.tour_id}}" />
           </figure>
-        </div> -->
+        </div>
 
         <div class="card-content">
           <a href="/tours/{{tour.tour_id}}">
             <p class="title is-4">{{tour.title}}</p>
             <p class="subtitle is-7"><code>{{tour.tour_id}}</code></p>
           </a>
+          <p>{{tour.timestamp.strftime('%B %d, %Y at %H:%M')}}</p>
 
+          {% if tour.description is not none %}
           <div class="content mt-3">
             <p>{{tour.description}}</p>
           </div>
+          {% endif %}
         </div>
       </div>
       {% endfor %} {% else %}

@@ -42,10 +42,9 @@ def add_tour(text_data, raw_file_data, tour_id):
 
         # Do some processing; for now, just real basic and then upload
         image = cv2.rotate(image, cv2.ROTATE_180)
-        image = 255 - image
         kernel = np.array([[0, -1, 0],
-                          [-1, 5,-1],
-                          [0, -1, 0]])
+                           [-1, 5,-1],
+                           [0, -1, 0]])
         image = cv2.filter2D(src=image, ddepth=-1, kernel=kernel)
         
         retval, buffer = cv2.imencode(".jpg", image)

@@ -1,7 +1,7 @@
-let socket = io();
+console.info(document.querySelector('#unprocessed'));
 
-console.info(socket);
-
-socket.on('loaded', () => {
-  window.location.reload();
-});
+if (document.querySelector('#unprocessed') !== null) {
+  window.setTimeout(() => {
+    window.location.reload();
+  }, 2000);
+}
