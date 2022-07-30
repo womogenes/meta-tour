@@ -73,7 +73,11 @@ def show_single_tour(tour_id):
     Show one specific tour.
     """
     tour = get_tour(tour_id)
-    return render_template("single-tour.html", readings_size=sizeof_fmt(len(tour["text"]["readings"].encode())), tour=tour)
+    if not tour:
+        readings_size = None
+    else:
+        readings_size = sizeof_fmt(len(tour["text"]["readings"].encode()))
+    return render_template("single-tour.html", readings_size=readings_size, tour=tour)
 
 
 
