@@ -13,6 +13,7 @@ let readings = 0;
 
 let bearing = { alpha: NaN, beta: NaN, gamma: NaN };
 let acceleration = { x: NaN, y: NaN, z: NaN };
+let rotationRate = { alpha: NaN, beta: NaN, gamma: NaN };
 let startTime;
 let recordInfoInterval;
 export let motionData = [];
@@ -23,20 +24,25 @@ const format = (value) => {
 
 const accelerationHandler = (event) => {
   const { x, y, z } = event.acceleration;
+  const { alpha, beta, gamma } = event.rotationRate;
   acceleration = {
     x: x / 9.8,
     y: y / 9.8,
     z: z / 9.8,
   };
+  rotationRate = { alpha, beta, gamma };
 
   $('#acceleration').innerText = `${format(x)}, ${format(y)}, ${format(z)}`;
+  $('#rotation-rate').innerText = `${format(beta)}, ${format(gamma)}, ${format(
+    alpha
+  )}`;
 };
 
 const orientationHandler = (event) => {
   const { alpha, beta, gamma } = event;
   bearing = { alpha, beta, gamma };
-  $('#orientation').innerText = `${format(alpha)}, ${format(beta)}, ${format(
-    gamma
+  $('#orientation').innerText = `${format(beta)}, ${format(gamma)}, ${format(
+    alpha
   )}`;
 };
 
@@ -84,12 +90,15 @@ const recordInfo = () => {
 
   motionData.push([
     time,
-    bearing.alpha,
-    bearing.beta,
-    bearing.gamma,
     acceleration.x,
     acceleration.y,
     acceleration.z,
+    rotationRate.beta,
+    rotationRate.gamma,
+    rotationRate.alpha,
+    bearing.beta,
+    bearing.gamma,
+    bearing.alpha,
   ]);
   $('#readings').innerText = readings;
 };
