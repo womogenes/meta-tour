@@ -19,17 +19,17 @@ let recordInfoInterval;
 export let motionData = [];
 
 const format = (value) => {
-  return (Math.round(value * 100) / 100).toFixed(2).padStart(6, ' ');
+  return (Math.round(value * 1000) / 1000).toFixed(3).padStart(6, ' ');
 };
 
 const toRadians = (x) => x * (Math.PI / 180);
 
 const accelerationHandler = (event) => {
-  const { x, y, z } = event.acceleration;
+  let { x, y, z } = event.acceleration;
   x /= 9.8;
   y /= 9.8;
   z /= 9.8;
-  const { alpha, beta, gamma } = event.rotationRate;
+  let { alpha, beta, gamma } = event.rotationRate;
   alpha = toRadians(alpha);
   beta = toRadians(beta);
   gamma = toRadians(gamma);
@@ -44,7 +44,7 @@ const accelerationHandler = (event) => {
 };
 
 const orientationHandler = (event) => {
-  const { alpha, beta, gamma } = event;
+  let { alpha, beta, gamma } = event;
   alpha = toRadians(alpha);
   beta = toRadians(beta);
   gamma = toRadians(gamma);

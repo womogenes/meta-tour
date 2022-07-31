@@ -28,6 +28,10 @@ def extractImages(path_in):
 
 
 def add_tour(text_data, raw_file_data, tour_id):
+    """
+    Processes user input and uploading to the database.
+    This really shouldn't go in the database file 😳
+    """
     creation_time = dt.datetime.now()
 
     file_data = {}
@@ -41,14 +45,14 @@ def add_tour(text_data, raw_file_data, tour_id):
             # Do some processing; for now, just real basic and then upload
             image = cv2.rotate(image, cv2.ROTATE_180)
             kernel = np.array([[0, -1, 0],
-                            [-1, 5,-1],
-                            [0, -1, 0]])
-            image = cv2.filter2D(src=image, ddepth=-1, kernel=kernel)        
-            retval, buffer = cv2.imencode(".jpg", image)        
+                               [-1, 5,-1],
+                               [0, -1, 0]])
+            image = cv2.filter2D(src=image, ddepth=-1, kernel=kernel)
+            retval, buffer = cv2.imencode(".jpg", image)
 
             url = "https://api.imgbb.com/1/upload"
             payload = {
-                "key": "c3d3c66c31722052dc445b40817ec458",
+                "key": os.environ.get("IMGBB_KEY"),
                 "image": base64.b64encode(buffer),
             }
             res = requests.post(url, payload)
