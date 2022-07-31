@@ -105,4 +105,9 @@ const recordInfo = () => {
 
 // Actually run stuff!
 let dataAvailable = DeviceMotionEvent.requestPermission;
-$('.notification').style.display = dataAvailable ? 'none' : 'block';
+if (dataAvailable) {
+  $('.message').style.display = 'none';
+} else {
+  $('.message').style.display = 'block';
+  $('#readings-container').style.display = 'none';
+}

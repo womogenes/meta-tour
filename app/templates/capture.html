@@ -18,11 +18,22 @@
         <div class="column">
           <h1 class="title is-1">Capture a tour</h1>
 
-          <div id="readings-container">
-            <div class="notification is-danger" style="display: none">
-              <span>Sensor API not available 🙁</span>
+          <article class="message is-danger container" style="display: none">
+            <div class="message-body">
+              <span>
+                <h2 class="title is-5 mb-2 has-text-danger">
+                  Sensor API not available 🙁
+                </h2>
+                Unfortunately, you can't capture a tour on this device. Try
+                <a class="has-text-link" href="https://youtu.be/dQw4w9WgXcQe">
+                  downloading our app</a
+                >
+                on a device that supports accelerometer and gyroscope data.
+              </span>
             </div>
+          </article>
 
+          <div id="readings-container">
             <p>Acceleration: <span id="acceleration"></span></p>
             <p>Rotation rate:&nbsp; <span id="rotation-rate"></span></p>
             <p>Orientation:&nbsp; <span id="orientation"></span></p>
