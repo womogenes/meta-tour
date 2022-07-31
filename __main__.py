@@ -9,4 +9,6 @@ if os.environ.get("HTTPS") == "on":
 else:
     ssl_context = dict()
 
-socketio.run(app, debug=True, host="0.0.0.0", log_output=False, **ssl_context)
+PORT = int(os.environ.get("PORT"))
+
+socketio.run(app, host="0.0.0.0", **ssl_context, port=PORT, log_output=False, debug=True)

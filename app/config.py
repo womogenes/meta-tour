@@ -17,5 +17,5 @@ app = Flask(__name__,
             static_url_path="",
             static_folder="static")
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
-app.config["PORT"] = int(os.environ.get("PORT"))
+
 socketio = SocketIO(app)

@@ -16,11 +16,13 @@
         {% if tours|length > 0 %} {% for tour in tours %}
         <div class="column is-one-quarter">
           <div class="card tour mb-5">
+            {% if tour.files.video0|length > 0 %}
             <div class="card-image">
               <figure class="image is-4by3">
                 <img src="{{tour.files.video0}}" alt="Tour {{tour.tour_id}}" />
               </figure>
             </div>
+            {% endif %}
 
             <div class="card-content">
               <a href="/tours/{{tour.tour_id}}">

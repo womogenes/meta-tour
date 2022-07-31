@@ -10,6 +10,7 @@ formEl.addEventListener('submit', async (e) => {
   const formData = new FormData(formEl);
   formData.append('video0', window.blob);
   formData.append('readings', JSON.stringify(motionData));
+  formData.set('did-loop', formData.get('did-loop') ? 'true' : 'false');
 
   let response = await fetch('/upload-data', {
     method: 'POST',
