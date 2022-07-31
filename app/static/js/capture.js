@@ -22,14 +22,19 @@ const format = (value) => {
   return (Math.round(value * 100) / 100).toFixed(2).padStart(6, ' ');
 };
 
+const toRadians = (x) => x * (Math.PI / 180);
+
 const accelerationHandler = (event) => {
   const { x, y, z } = event.acceleration;
+  x /= 9.8;
+  y /= 9.8;
+  z /= 9.8;
   const { alpha, beta, gamma } = event.rotationRate;
-  acceleration = {
-    x: x / 9.8,
-    y: y / 9.8,
-    z: z / 9.8,
-  };
+  alpha = toRadians(alpha);
+  beta = toRadians(beta);
+  gamma = toRadians(gamma);
+
+  acceleration = { x, y, z };
   rotationRate = { alpha, beta, gamma };
 
   $('#acceleration').innerText = `${format(x)}, ${format(y)}, ${format(z)}`;
@@ -40,6 +45,10 @@ const accelerationHandler = (event) => {
 
 const orientationHandler = (event) => {
   const { alpha, beta, gamma } = event;
+  alpha = toRadians(alpha);
+  beta = toRadians(beta);
+  gamma = toRadians(gamma);
+
   bearing = { alpha, beta, gamma };
   $('#orientation').innerText = `${format(beta)}, ${format(gamma)}, ${format(
     alpha
