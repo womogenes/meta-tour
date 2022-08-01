@@ -16,8 +16,6 @@ from .config import app
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
-print(os.getcwd())
-
 with open("./app/static/data/adjectives.txt") as fin:
     ADJECTIVES = fin.read().strip().split("\n")
 with open("./app/static/data/adverbs.txt") as fin:
@@ -28,15 +26,12 @@ ALLOWED_EXTENSIONS = {"webm", "mp4", "png"}
 app.config["UPLOAD_FOLDER"] = "./uploads"
 
 
-
-
 def sizeof_fmt(num, suffix="B"):
     for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
         if abs(num) < 1000:
             return f"{num:3.1f} {unit}{suffix}"
         num /= 1000
     return f"{num:.1f} Y{suffix}"
-
 
 
 @app.route("/")
@@ -60,9 +55,8 @@ def show_tours():
     return render_template("all-tours.html", tours=all_tours)
 
 
-
 @app.route("/tour-data/<tour_id>")
-def get_data(tour_id):    
+def get_data(tour_id):
     data = get_tour(tour_id)["text"]["readings"]
     return Response(data, mimetype="application/json")
 
@@ -77,8 +71,7 @@ def show_single_tour(tour_id):
         readings_size = None
     else:
         readings_size = sizeof_fmt(len(tour["text"]["readings"].encode()))
-    return render_template("single-tour.html", readings_size=readings_size, tour=tour)
-
+    return render_template("single-tour.html", readings_size=readings_size, tour=tour, tour_id=tour_id)
 
 
 def allowed_file(filename):
@@ -92,11 +85,12 @@ def upload_data():
     #   there's just print statements for debugging.
 
     tour_id = str(uuid4())
-        
-    print(f"\n\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
+
+    print(
+        f"\n\n=== RECEIVED DATA FROM {request.remote_addr} at {dt.datetime.now()} ===")
     print("**Data fields**")
     print(request.files.to_dict())
-    
+
     print()
     print("**Text fields**")
     if len(str(request.form.to_dict())) > 100:
@@ -115,7 +109,8 @@ def upload_data():
         raw_file_data[file].save(video_path)
         raw_file_data[file].close()
 
-    thread = Thread(target=add_tour, args=(request.form.to_dict(), request.files.to_dict(), tour_id))
+    thread = Thread(target=add_tour, args=(
+        request.form.to_dict(), request.files.to_dict(), tour_id))
     thread.start()
 
     return redirect(f"/tours/{tour_id}", code=302)

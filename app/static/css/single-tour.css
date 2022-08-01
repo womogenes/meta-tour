@@ -1,3 +1,9 @@
 code {
   overflow-wrap: break-word;
 }
+
+html,
+body,
+main {
+  height: 100%;
+}

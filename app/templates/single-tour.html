@@ -7,7 +7,9 @@
     <title>View tour</title>
 
     <link rel="stylesheet" href="css/single-tour.css" />
-    <script src="js/single-tour.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js" defer></script>
+    <script src="js/single-tour.js" type="module" defer></script>
   </head>
 
   <body>
@@ -29,9 +31,9 @@
       <p>{{tour.timestamp.strftime('%B %d, %Y at %I:%M %p')}}</p>
       <br>
 
-      <p><b>Files</b></p>
+      <p><b>Panoramas</b></p>
       {% for file in tour.files %}
-      <img src="{{tour.files[file]}}" />
+      <img class="panorama" src="{{tour.files[file]}}" />
       {% endfor %}
       <br><br>
 
@@ -41,9 +43,13 @@
 
       {% else %}
       <h1 class="title is-1">Tour not fully processed</h1>
-      <article class="message is-danger container">
+      <p><b>Tour ID</b></</p>
+      <p><code>{{tour_id}}</code></p>
+      <br>
+
+      <article class="message is-info container">
         <div class="message-body">
-          <span id="unprocessed">This tour hasn't been fully processed yet. This page will refresh every 2 seconds.</span>
+          <span id="unprocessed">This tour hasn't been fully processed yet. This page will refresh every minute.</span>
         </div>
       </article>
       {% endif %}

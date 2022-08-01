@@ -1,3 +1,0 @@
-[submodule "app/libs/image-stitcher"]
-	path = app/libs/image-stitcher
-	url = https://github.com/hectorastrom/Meta-Tour.git
