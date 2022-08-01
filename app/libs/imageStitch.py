@@ -139,12 +139,14 @@ def videoToPanorama(tourData: str, videoName: str, scaleCoeff: int):
         cv.imwrite(f"Stitches/{videoName[:-5]}_stitch.jpg", result)
         print(
             f"[INFO]: Time elapsed to stitch {videoName} was {round(time.time()-start_time, 3)} seconds.")
-        cv.imshow(videoName, result)
-        cv.waitKey(0)
+        # cv.imshow(videoName, result)
+        # cv.waitKey(0)
         return result
+
     elif status == 1:
         print(f"[ERROR] Not enough keypoints in images of {videoName}")
         return 1
+
     else:
         print(f"[ERROR]: {videoName} Status {status}")
         return 1
