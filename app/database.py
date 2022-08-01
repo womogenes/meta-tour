@@ -11,7 +11,7 @@ import time
 
 # from .config import socketio
 import sys
-sys.path.append("./app/libs/image_stitcher")
+sys.path.append("./app/libs")
 from imageStitch import videoToPanorama
 
 load_dotenv()
