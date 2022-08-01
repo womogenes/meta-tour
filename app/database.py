@@ -8,11 +8,13 @@ import os
 import json
 import cv2
 import time
+import numpy as np
 
 # from .config import socketio
 import sys
 sys.path.append("./app/libs")
 from imageStitch import videoToPanorama
+from trace_position import trace_position, twoD_trace_map
 
 load_dotenv()
 
@@ -38,12 +40,14 @@ def add_tour(text_data, raw_file_data, tour_id):
             f"./app/uploads/{tour_id}/{file}/source.webm")
         gyro_data = json.loads(text_data["readings"])
 
-        if True:  # try:
-            # Extract the first frame
+        try:
             print(f"  - Processing {file} ... this might take a while.")
             start_time = time.time()
 
             image = videoToPanorama(gyro_data, video_path, 1)
+            if image == 1:
+                raise ValueError()
+
             retval, buffer = cv2.imencode(".jpg", image)
 
             url = "https://api.imgbb.com/1/upload"
@@ -62,13 +66,25 @@ def add_tour(text_data, raw_file_data, tour_id):
             print(
                 f"     Finished processing in {round(time.time() - start_time)} seconds.")
 
-        else:  # except:
-            print(f"")
+        except:
+            print(f"Some error occurred :(")
             continue
 
     # Delete everything
     if os.environ.get("CLEAR_DATA") == "true":
         shutil.rmtree(f"./app/uploads/{tour_id}")
+
+    # Generate trace map
+    position = trace_position(np.asarray(json.loads(text_data["readings"])))
+    image = twoD_trace_map(position)
+    retval, buffer = cv2.imencode(".jpg", image)
+    url = "https://api.imgbb.com/1/upload"
+    payload = {
+        "key": os.environ.get("IMGBB_KEY"),
+        "image": base64.b64encode(buffer),
+    }
+    res = requests.post(url, payload)
+    tracemap_url = res.json()["data"]["url"]
 
     title = text_data["title"]
     description = text_data["description"]
@@ -81,7 +97,8 @@ def add_tour(text_data, raw_file_data, tour_id):
         "description": description,
         "timestamp": creation_time,
         "files": file_data,
-        "text": text_data
+        "text": text_data,
+        "tracemap_url": tracemap_url
     }
     tours.insert_one(document)
 

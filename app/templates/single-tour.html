@@ -48,6 +48,9 @@
         {% endfor %}
       </div>
 
+      <p><b>Tracemap</b></p>      
+      <img src="{{tour.tracemap_url}}" alt="tracemap" />
+
       <p><b>Data</b></p>
       <a href="/tour-data/{{tour.tour_id}}" download="tour_data.{{tour.tour_id}}.json">Download JSON</a>
       <span>({{readings_size}})</span>
