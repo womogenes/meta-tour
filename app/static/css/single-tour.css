@@ -16,7 +16,7 @@ body {
   height: 100vh;
 
   /* Display should be flex when shown */
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
 }
