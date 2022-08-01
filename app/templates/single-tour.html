@@ -6,9 +6,12 @@
 
     <title>View tour</title>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.css"/>
     <link rel="stylesheet" href="css/single-tour.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js" defer></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/uevent@2/browser.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/photo-sphere-viewer@4/dist/photo-sphere-viewer.min.js" defer></script>
     <script src="js/single-tour.js" type="module" defer></script>
   </head>
 
@@ -32,10 +35,18 @@
       <br>
 
       <p><b>Panoramas</b></p>
-      {% for file in tour.files %}
-      <img class="panorama" src="{{tour.files[file]}}" />
-      {% endfor %}
-      <br><br>
+      <div class="mb-5 mt-1" id="panoramas-container">
+        {% for file in tour.files %}
+        <div class="panorama" id="{{file}}">
+          <img class="panorama" src="{{tour.files[file]}}" />
+          <div class="viewer-container">
+            <div class="background-image"></div>
+            <div class="viewer"></div>
+            <button class="delete is-large"></button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
 
       <p><b>Data</b></p>
       <a href="/tour-data/{{tour.tour_id}}" download="tour_data.{{tour.tour_id}}.json">Download JSON</a>

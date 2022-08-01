@@ -3,7 +3,39 @@ code {
 }
 
 html,
-body,
-main {
+body {
   height: 100%;
+}
+
+.viewer-container {
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Display should be flex when shown */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.viewer-container button {
+  position: absolute;
+  right: 8px;
+  top: 60px;
+}
+
+.background-image {
+  background-color: #000;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  /* filter: blur(1px); */
+}
+
+.viewer {
+  width: 100%;
+  height: 50%;
 }

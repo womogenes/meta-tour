@@ -1,4 +1,5 @@
 export const $ = document.querySelector.bind(document);
+export const $$ = document.querySelectorAll.bind(document);
 
 export function formatBytes(bytes, decimals = 2) {
   if (bytes === 0) return '0 Bytes';
