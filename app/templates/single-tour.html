@@ -41,9 +41,13 @@
 
       {% else %}
       <h1 class="title is-1">Tour not fully processed</h1>
-      <article class="message is-danger container">
+      <p><b>Tour ID</b></</p>
+      <p><code>{{tour_id}}</code></p>
+      <br>
+
+      <article class="message is-info container">
         <div class="message-body">
-          <span id="unprocessed">This tour hasn't been fully processed yet. This page will refresh every 2 seconds.</span>
+          <span id="unprocessed">This tour hasn't been fully processed yet. This page will refresh every minute.</span>
         </div>
       </article>
       {% endif %}
