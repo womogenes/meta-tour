@@ -39,7 +39,7 @@ def add_tour(text_data, raw_file_data, tour_id):
             f"./app/uploads/{tour_id}/{file}/source.webm")
         gyro_data = json.loads(text_data["readings"])
 
-        try:
+        if True:  # try:
             print(f"  - Processing {file} ... this might take a while.")
             start_time = time.time()
 
@@ -65,13 +65,13 @@ def add_tour(text_data, raw_file_data, tour_id):
             print(
                 f"     Finished processing in {round(time.time() - start_time)} seconds.")
 
-        except:
+        else:  # except ValueError:
             print(f"Some error occurred :(")
             continue
 
     # Delete everything
-    if os.environ.get("CLEAR_DATA") == "true":
-        shutil.rmtree(f"./app/uploads/{tour_id}")
+    # if os.environ.get("CLEAR_DATA") == "true":
+    #     shutil.rmtree(f"./app/uploads/{tour_id}")
 
     # Generate trace map
     position = trace_position(np.asarray(json.loads(text_data["readings"])))

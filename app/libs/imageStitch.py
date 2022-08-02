@@ -107,7 +107,7 @@ def check_folder(folderName: str):
     return True
 
 
-def videoToPanorama(tourData: str, videoName: str, scaleCoeff: int):
+def videoToPanorama(tourData: list, videoName: str, scaleCoeff: int):
     """Takes in the name of a json file with odometry data and the name of a video file and stitches a panorama stored in stitches/. Files whose names are inputted should exist in the most outside directory (same directory as imageStitch.py)"""
     vidcap = cv.VideoCapture(videoName)
     totalFrames = vidcap.get(7)
@@ -124,8 +124,8 @@ def videoToPanorama(tourData: str, videoName: str, scaleCoeff: int):
     # plt.scatter(range(len(rotations)), rotations[:,0])
     # plt.show(block=True)
 
-    # Want an image every 12 or so degrees
-    timestamps = np.array(select_timestamps(rotations, 12))
+    # Want an image every 6 or so degrees
+    timestamps = np.array(select_timestamps(rotations, 6))
     frames = convert_milli_to_frames(timestamps, totalMilli, totalFrames)
     images = load_video_frames(vidcap, frames, scaleCoeff, True)
     print(f"[INFO]: {len(images)} images gathered")
@@ -139,14 +139,12 @@ def videoToPanorama(tourData: str, videoName: str, scaleCoeff: int):
         cv.imwrite(f"Stitches/{videoName[:-5]}_stitch.jpg", result)
         print(
             f"[INFO]: Time elapsed to stitch {videoName} was {round(time.time()-start_time, 3)} seconds.")
-        # cv.imshow(videoName, result)
-        # cv.waitKey(0)
+        cv.imshow(videoName, result)
+        cv.waitKey(0)
         return result
-
     elif status == 1:
         print(f"[ERROR] Not enough keypoints in images of {videoName}")
         return 1
-
     else:
         print(f"[ERROR]: {videoName} Status {status}")
         return 1
@@ -180,4 +178,4 @@ if __name__ == "__main__":
     if (check_folder("Data") and check_folder("Stitches")):
         print("[INFO]: All necessary folders exist")
 
-    videoToPanorama(load_json(jsonFile), videoFile, scaleCoeff=1)
+    videoToPanorama(jsonFile, videoFile, scaleCoeff=1)

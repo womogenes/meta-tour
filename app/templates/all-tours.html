@@ -17,7 +17,7 @@
       <div class="columns is-multiline">
         {% if tours|length > 0 %} {% for tour in tours %}
         <div class="column is-one-quarter">
-          <div class="card tour mb-5" id="{{tour.tour_id}}">
+          <div class="card tour mb-5" id="tour-{{tour.tour_id}}">
             {% if tour.files.video0|length > 0 %}
 
             <a href="/tours/{{tour.tour_id}}">
