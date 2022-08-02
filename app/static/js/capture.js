@@ -30,9 +30,9 @@ const accelerationHandler = (event) => {
   y /= 9.8;
   z /= 9.8;
   let { alpha, beta, gamma } = event.rotationRate;
-  // alpha = toRadians(alpha);
-  // beta = toRadians(beta);
-  // gamma = toRadians(gamma);
+  alpha = toRadians(alpha);
+  beta = toRadians(beta);
+  gamma = toRadians(gamma);
 
   acceleration = { x, y, z };
   rotationRate = { alpha, beta, gamma };
@@ -45,9 +45,9 @@ const accelerationHandler = (event) => {
 
 const orientationHandler = (event) => {
   let { alpha, beta, gamma } = event;
-  // alpha = toRadians(alpha);
-  // beta = toRadians(beta);
-  // gamma = toRadians(gamma);
+  alpha = toRadians(alpha);
+  beta = toRadians(beta);
+  gamma = toRadians(gamma);
 
   bearing = { alpha, beta, gamma };
   $('#orientation').innerText = `${format(beta)}, ${format(gamma)}, ${format(

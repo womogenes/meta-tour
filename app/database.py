@@ -1,3 +1,4 @@
+from asyncore import read
 import datetime as dt
 import requests
 import base64
@@ -37,13 +38,16 @@ def add_tour(text_data, raw_file_data, tour_id):
     for file in raw_file_data:
         video_path = os.path.abspath(
             f"./app/uploads/{tour_id}/{file}/source.webm")
-        gyro_data = json.loads(text_data["readings"])
+
+        readings_path = f"./app/uploads/{tour_id}/{file}/readings.json"
+        with open(readings_path, "w") as fout:
+            json.dump(text_data["readings"], fout)
 
         if True:  # try:
             print(f"  - Processing {file} ... this might take a while.")
             start_time = time.time()
 
-            image = videoToPanorama(gyro_data, video_path, 1)
+            image = videoToPanorama(readings_path, video_path, 1)
             if isinstance(image, int):
                 raise ValueError()
 
