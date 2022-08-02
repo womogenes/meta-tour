@@ -10,7 +10,7 @@ import datetime as dt
 from threading import Thread
 import random
 
-from .database import get_tour, add_tour, tours
+from .database import get_tour, add_tour, tours, delete_tour
 from .config import app
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -59,6 +59,14 @@ def show_tours():
 def get_data(tour_id):
     data = get_tour(tour_id)["text"]["readings"]
     return Response(data, mimetype="application/json")
+
+
+@app.route("/delete-tour/<tour_id>", methods=["POST"])
+def user_delete_tour(tour_id):
+    if delete_tour(tour_id):
+        return ('', 204)
+
+    return "Tour not found", 404
 
 
 @app.route("/tours/<tour_id>")

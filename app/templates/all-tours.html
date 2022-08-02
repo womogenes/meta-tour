@@ -4,6 +4,8 @@
     {% include 'common/head.html' %}
     <link rel="stylesheet" href="css/all-tours.css" />
 
+    <script src="./js/all-tours.js" defer></script>
+
     <title>All tours</title>
   </head>
 
@@ -15,7 +17,7 @@
       <div class="columns is-multiline">
         {% if tours|length > 0 %} {% for tour in tours %}
         <div class="column is-one-quarter">
-          <div class="card tour mb-5">
+          <div class="card tour mb-5" id="{{tour.tour_id}}">
             {% if tour.files.video0|length > 0 %}
 
             <a href="/tours/{{tour.tour_id}}">
@@ -48,6 +50,13 @@
                 <p class="has-text-grey">No description.</p>
               </div>
               {% endif %}
+
+              <button
+                class="button is-danger is-small"
+                onclick='deleteTour("{{tour.tour_id}}")'
+              >
+                Delete tour
+              </button>
             </div>
           </div>
         </div>

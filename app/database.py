@@ -44,7 +44,7 @@ def add_tour(text_data, raw_file_data, tour_id):
             start_time = time.time()
 
             image = videoToPanorama(gyro_data, video_path, 1)
-            if image == 1:
+            if isinstance(image, int):
                 raise ValueError()
 
             retval, buffer = cv2.imencode(".jpg", image)
@@ -106,3 +106,7 @@ def add_tour(text_data, raw_file_data, tour_id):
 
 def get_tour(tour_id):
     return tours.find_one({"tour_id": tour_id})
+
+
+def delete_tour(tour_id):
+    return tours.delete_one({"tour_id": tour_id})
