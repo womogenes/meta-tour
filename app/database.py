@@ -35,7 +35,6 @@ def add_tour(text_data, raw_file_data, tour_id):
 
     file_data = {}
     for file in raw_file_data:
-
         video_path = os.path.abspath(
             f"./app/uploads/{tour_id}/{file}/source.webm")
         gyro_data = json.loads(text_data["readings"])
