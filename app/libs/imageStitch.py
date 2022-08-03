@@ -129,8 +129,8 @@ def videoToPanorama(dataName: str, videoName: str, scaleCoeff: int):
     # plt.scatter(range(len(rotations)), rotations[:,0])
     # plt.show(block=True)
 
-    # Want an image every 12 or so degrees
-    timestamps = np.array(select_timestamps(rotations, 12))
+    # Want an image every x or so degrees
+    timestamps = np.array(select_timestamps(rotations, 6))
     frames = convert_milli_to_frames(timestamps, totalMilli, totalFrames)
     images = load_video_frames(vidcap, frames, scaleCoeff, True)
 
@@ -149,8 +149,11 @@ def videoToPanorama(dataName: str, videoName: str, scaleCoeff: int):
         cv.imwrite(f"Stitches/{videoName[:-5]}_stitch.jpg", result)
         print(
             f"[INFO]: Time elapsed to stitch {videoName} was {round(time.time()-start_time, 3)} seconds.")
-        cv.imshow(videoName, result)
-        cv.waitKey(0)
+
+        if os.environ.get("ENV") == "development":
+            cv.imshow(videoName, result)
+            cv.waitKey(0)
+
         return result
     elif status == 1:
         print(f"[ERROR] Not enough keypoints in images of {videoName}")
