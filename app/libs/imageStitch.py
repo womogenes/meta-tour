@@ -4,7 +4,11 @@ import os
 import time
 import json
 import numpy as np
+from matplotlib import pyplot as plt
 import sys
+
+# Suppresses scientific notation
+np.set_printoptions(suppress=True)
 
 
 def stitch_images():
@@ -107,8 +111,9 @@ def check_folder(folderName: str):
     return True
 
 
-def videoToPanorama(tourData: str, videoName: str, scaleCoeff: int):
+def videoToPanorama(dataName: str, videoName: str, scaleCoeff: int):
     """Takes in the name of a json file with odometry data and the name of a video file and stitches a panorama stored in stitches/. Files whose names are inputted should exist in the most outside directory (same directory as imageStitch.py)"""
+    tourData = load_json(dataName)
     vidcap = cv.VideoCapture(videoName)
     totalFrames = vidcap.get(7)
     # Creates a list of tuples with all timestamps and y absolute rotations (relevant rotation).
@@ -128,7 +133,12 @@ def videoToPanorama(tourData: str, videoName: str, scaleCoeff: int):
     timestamps = np.array(select_timestamps(rotations, 12))
     frames = convert_milli_to_frames(timestamps, totalMilli, totalFrames)
     images = load_video_frames(vidcap, frames, scaleCoeff, True)
-    print(f"[INFO]: {len(images)} images gathered")
+
+    for i, img in enumerate(images):
+        cv.imwrite(os.path.join(os.path.dirname(
+            videoName), f"{str(i).zfill(2)}.jpg"), img)
+
+    print("[INFO]: Images gathered")
     print("[INFO]: Stitching images...")
 
     start_time = time.time()
@@ -178,4 +188,4 @@ if __name__ == "__main__":
     if (check_folder("Data") and check_folder("Stitches")):
         print("[INFO]: All necessary folders exist")
 
-    videoToPanorama(load_json(jsonFile), videoFile, scaleCoeff=1)
+    videoToPanorama(jsonFile, videoFile, scaleCoeff=1)

@@ -10,6 +10,8 @@ let constraints = {
   audio: false,
   video: {
     facingMode: 'environment',
+    width: { ideal: 4096 },
+    height: { ideal: 2160 },
   },
 };
 

@@ -41,13 +41,13 @@ def add_tour(text_data, raw_file_data, tour_id):
 
         readings_path = f"./app/uploads/{tour_id}/{file}/readings.json"
         with open(readings_path, "w") as fout:
-            json.dump(text_data["readings"], fout)
+            fout.write(text_data["readings"])
 
         if True:  # try:
             print(f"  - Processing {file} ... this might take a while.")
             start_time = time.time()
 
-            image = videoToPanorama(readings_path, video_path, 1)
+            image = videoToPanorama(readings_path, video_path, 0.8)
             if isinstance(image, int):
                 raise ValueError()
 
