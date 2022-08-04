@@ -36,7 +36,6 @@ def add_tour(text_data, raw_file_data, tour_id):
     raw_document = {
         "tour_id": tour_id,
         "text": text_data,
-        "files": raw_file_data,
         "timestamp": creation_time
     }
     raw_tours.insert_one(raw_document)
