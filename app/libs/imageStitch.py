@@ -6,6 +6,9 @@ import json
 import numpy as np
 from matplotlib import pyplot as plt
 import sys
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Suppresses scientific notation
 np.set_printoptions(suppress=True)
@@ -111,7 +114,7 @@ def check_folder(folderName: str):
     return True
 
 
-def videoToPanorama(dataName: str, videoName: str, scaleCoeff: int):
+def video_to_panorama(dataName: str, videoName: str, scaleCoeff=1, degrees=12.0):
     """Takes in the name of a json file with odometry data and the name of a video file and stitches a panorama stored in stitches/. Files whose names are inputted should exist in the most outside directory (same directory as imageStitch.py)"""
     tourData = load_json(dataName)
     vidcap = cv.VideoCapture(videoName)
@@ -129,21 +132,21 @@ def videoToPanorama(dataName: str, videoName: str, scaleCoeff: int):
     # plt.scatter(range(len(rotations)), rotations[:,0])
     # plt.show(block=True)
 
-    # Want an image every x or so degrees
-    timestamps = np.array(select_timestamps(rotations, 6))
+    # Extract timestamps for a given degree spacing
+    timestamps = np.array(select_timestamps(rotations, degrees))
+    # From the timestamps, get the frame numbers
     frames = convert_milli_to_frames(timestamps, totalMilli, totalFrames)
+    # Extract the images from the frame numbers
     images = load_video_frames(vidcap, frames, scaleCoeff, True)
-
-    for i, img in enumerate(images):
-        cv.imwrite(os.path.join(os.path.dirname(
-            videoName), f"{str(i).zfill(2)}.jpg"), img)
-
     print("[INFO]: Images gathered")
     print("[INFO]: Stitching images...")
 
+    # Take the time that stitching began to see how long it takes
     start_time = time.time()
+    # Using OpenCV sticher, stitch together the gathered images
     stitcher = cv.Stitcher_create()
     (status, result) = stitcher.stitch(images)
+    # Different statuses will tell us how the stitching performed
     if (status == 0):
         print(f"[SUCCESS]: Image Sphere Generated for {videoName}")
         cv.imwrite(f"Stitches/{videoName[:-5]}_stitch.jpg", result)
@@ -153,8 +156,8 @@ def videoToPanorama(dataName: str, videoName: str, scaleCoeff: int):
         if os.environ.get("ENV") == "development":
             cv.imshow(videoName, result)
             cv.waitKey(0)
+            return result
 
-        return result
     elif status == 1:
         print(f"[ERROR] Not enough keypoints in images of {videoName}")
         return 1
@@ -191,4 +194,4 @@ if __name__ == "__main__":
     if (check_folder("Data") and check_folder("Stitches")):
         print("[INFO]: All necessary folders exist")
 
-    videoToPanorama(jsonFile, videoFile, scaleCoeff=1)
+    video_to_panorama(jsonFile, videoFile, scaleCoeff=1, degrees=12)

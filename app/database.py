@@ -14,7 +14,7 @@ import numpy as np
 # from .config import socketio
 import sys
 sys.path.append("./app/libs")
-from imageStitch import videoToPanorama
+from imageStitch import video_to_panorama
 from trace_position import trace_position, twoD_trace_map
 
 load_dotenv()
@@ -47,7 +47,7 @@ def add_tour(text_data, raw_file_data, tour_id):
             print(f"  - Processing {file} ... this might take a while.")
             start_time = time.time()
 
-            image = videoToPanorama(readings_path, video_path, 0.8)
+            image = video_to_panorama(readings_path, video_path, 0.8, 12)
             if isinstance(image, int):
                 raise ValueError()
 
