@@ -22,6 +22,7 @@ load_dotenv()
 client = MongoClient(os.environ.get("MONGO_URL"))
 db = client.main
 tours = db.tours
+raw_tours = db.raw_tours
 print(f"Connected to database!")
 
 
@@ -31,6 +32,14 @@ def add_tour(text_data, raw_file_data, tour_id):
     This really shouldn't go in the database file 😳
     """
     creation_time = dt.datetime.now()
+
+    raw_document = {
+        "tour_id": tour_id,
+        "text": text_data,
+        "files": raw_file_data,
+        "timestamp": creation_time
+    }
+    raw_tours.insert_one(raw_document)
 
     print(f"=== Processing data from {tour_id} ===")
 
