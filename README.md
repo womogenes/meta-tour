@@ -1,4 +1,4 @@
-# Final project server
+# Meta Tour server
 
 ## Development setup
 
