@@ -8,12 +8,6 @@ First, clone the repository with
 git clone https://github.com/womogenes/meta-tour.git
 ```
 
-The code relies on Hector's repository for image stitching, so make sure you have access to [their repository](https://github.com/hectorastrom/Meta-Tour). Then, initialize the submodule with
-
-```
-git submodule update --init
-```
-
 The server requires Python 3.9 (3.10 breaks everything for some reason), along with the following libraries:
 
 - [Flask](https://flask.palletsprojects.com/en/2.1.x/)
