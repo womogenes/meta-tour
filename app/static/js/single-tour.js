@@ -10,6 +10,7 @@ if ($('#unprocessed') !== null) {
 // View images with Viewer.js
 const panoDivs = [...document.getElementById('panoramas-container').children];
 let panoIDs = panoDivs.map((el) => el.id);
+let started = {};
 
 for (let div of panoDivs) {
   let viewerContainer = div.children[1];
@@ -37,18 +38,18 @@ for (let div of panoDivs) {
   };
 
   imgEl.addEventListener('click', () => {
-    console.info('hi');
-
     viewerContainer.style.display = 'flex';
-  });
+    if (started[div.id]) return;
+    started[div.id] = true;
 
-  viewerContainer.children[2].addEventListener('click', () => {
-    viewerContainer.style.display = 'none';
-  });
+    viewerContainer.children[2].addEventListener('click', () => {
+      viewerContainer.style.display = 'none';
+    });
 
-  if (imgEl.complete) {
-    setup();
-  } else {
-    imgEl.onload = setup;
-  }
+    if (imgEl.complete) {
+      setup();
+    } else {
+      imgEl.onload = setup;
+    }
+  });
 }
