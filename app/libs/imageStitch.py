@@ -156,7 +156,7 @@ def video_to_panorama(dataName: str, videoName: str, scaleCoeff=1, degrees=12.0)
         if os.environ.get("ENV") == "development":
             cv.imshow(videoName, result)
             cv.waitKey(0)
-            return result
+        return result
 
     elif status == 1:
         print(f"[ERROR] Not enough keypoints in images of {videoName}")

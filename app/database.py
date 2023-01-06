@@ -59,6 +59,8 @@ def add_tour(text_data, raw_file_data, tour_id):
             if isinstance(image, int):
                 raise ValueError()
 
+            print("Image obtained")
+
             retval, buffer = cv2.imencode(".jpg", image)
 
             url = "https://api.imgbb.com/1/upload"
@@ -66,6 +68,7 @@ def add_tour(text_data, raw_file_data, tour_id):
                 "key": os.environ.get("IMGBB_KEY"),
                 "image": base64.b64encode(buffer),
             }
+            print("Uploading to imgbb...")
             try:
                 res = requests.post(url, payload)
                 img_url = res.json()["data"]["url"]
